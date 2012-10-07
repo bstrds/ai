@@ -19,8 +19,7 @@ public class Test {
 		c.init();
 		c.print();
 		for(int i=0; i<10; i++) {
-			byte dice = (byte)((Math.random()*6)+1);
-			System.out.println(dice);
+			System.out.println(c.roll());
 		}
 	}
 }

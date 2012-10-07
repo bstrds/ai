@@ -22,6 +22,11 @@ public class Board {
 		
 	}
 	
+	public byte roll() {
+		byte dice = (byte)((Math.random()*6)+1);
+		return dice;
+	}
+	
 	public void print() {
 		for(int i=0; i<24; i++) {
 			if(pst[i].getNum() != 0) {
