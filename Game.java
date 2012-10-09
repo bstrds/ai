@@ -19,6 +19,20 @@ public class Game {
 	}
 	
 	public void move() {
-		
+		byte roll = b.roll();
+		System.out.println("Tokens you can move: ");
+		if(whiteFirst==true) {
+			for(int i=0; i<24; i++) {
+				if((b.pst[i].getCol()==false)&&(b.pst[i].getNum()!=0)) {
+					System.out.println("Position "+(i+1)+", number of tokens: "+b.pst[i].numOfPills);
+				}
+			}
+		} else {
+			for(int i=0; i<24; i++) {
+				if((b.pst[i].getCol()==true)&&(b.pst[i].getNum()!=0)) {
+					System.out.println("Position "+(i+1)+", number of tokens: "+b.pst[i].numOfPills);
+				}
+			}
+		}
 	}
 }
