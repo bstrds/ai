@@ -7,9 +7,9 @@ public class Board {
 	int count;
 	
 	public Board(){
-		pst = new Position[24];
+		pst = new Position[28];
 		count = 0;
-		for(int i=0; i<24; i++) {
+		for(int i=0; i<28; i++) {
 		pst[i] = new Position();
 		}
 	}
