@@ -2,12 +2,10 @@
 public class Board {
 
 	Position[] pst;
-	int count;
 	
 	public Board(){
-		pst = new Position[24];
-		count = 0;
-		for(int i=0; i<24; i++) {
+		pst = new Position[26];
+		for(int i=0; i<26; i++) {
 		pst[i] = new Position();
 		}
 	}
@@ -30,13 +28,6 @@ public class Board {
 		return dice;
 	}
 	
-	public void addCount() {
-		count++;
-	}
-	
-	public int getCount() {
-		return count;
-	}
 	
 	public void print() {
 		for(int i=0; i<24; i++) {
