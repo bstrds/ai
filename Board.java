@@ -33,7 +33,7 @@ public class Board {
 
 
 	public void print() {
-		for(int i=0; i<24; i++) {
+		for(int i=0; i<26; i++) {
 			if(pst[i].getNum() != 0) {
 				System.out.println(pst[i].getNum()+" "+pst[i].getCol());
 			} else {
