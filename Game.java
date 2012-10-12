@@ -32,7 +32,7 @@ public class Game {
 			System.out.println("white rolled "+r1+" and "+r2);
 			for(int i=0; i<24; i++) {
 				if(b.pst[i].getCol()==false && b.pst[i].getNum()!=0) {
-					if(i+r1<25) {
+					if(i+r1<24) {
 						if(b.pst[i+r1].getCol()==false || b.pst[i+r1].getNum()==0) {
 							System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+r1+1));
 							if(i+r1+r2<25) {	
@@ -42,7 +42,7 @@ public class Game {
 							}
 						}
 					}
-					if(i+r2<25) {
+					if(i+r2<24) {
 						if(b.pst[i+r2].getCol()==false || b.pst[i+r2].getNum()==0) {
 							System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+r2+1));
 							if(i+r1+r2<25) {
