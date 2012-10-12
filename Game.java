@@ -38,6 +38,7 @@ public class Game {
 				iCol = b.pst[i].getCol();
 				iNum = b.pst[i].getNum();
 				if(iCol==false && iNum!=0) {
+					
 					if(i+r1<24) {
 						ir1Col = b.pst[i+r1].getCol();
 						ir1Num = b.pst[i+r1].getNum();
