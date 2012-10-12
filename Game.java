@@ -1,9 +1,12 @@
 
 public class Game {
+	
 	Board b;
 	boolean whiteFirst;
+	boolean whiteTurn;
 	
 	public Game() {
+		
 		byte wr,br;
 		b = new Board();
 		b.init();
@@ -12,7 +15,17 @@ public class Game {
 		br = b.roll();
 		} while (wr==br);
 		first(wr,br);
-		
+		if (whiteFirst) {
+			whiteTurn=true;
+		} else {
+			whiteTurn=false;
+		}
+	}
+	
+	public void movegen() {
+		if(whiteTurn) {
+			
+		}
 	}
 	
 	public void first(byte wr, byte br) {

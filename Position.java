@@ -1,8 +1,9 @@
 
 public class Position {
 	
-	boolean isBlack;
-	byte numOfPills;
+	private boolean isBlack;
+	private byte numOfPills;
+	
 	public Position() {
 		numOfPills = 0;
 	}
@@ -10,10 +11,10 @@ public class Position {
 		isBlack = isB;
 		numOfPills = numP;
 	}
-	public void increase() {
+	public void incr() {
 		numOfPills++;
 	}
-	public void decrease() {
+	public void decr() {
 		numOfPills--;
 	}
 	public boolean getCol(){
