@@ -35,19 +35,26 @@ public class Game {
 					if(i+r1<25) {
 						if(b.pst[i+r1].getCol()==false || b.pst[i+r1].getNum()==0) {
 							System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+r1+1));
-							if(b.pst[i+r1+r2].getCol()==true ||b.pst[i-r1-r2].getNum()==0){
-								System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+r1+r2+1));
+							if(i+r1+r2<25) {	
+								if(b.pst[i+r1+r2].getCol()==true || b.pst[i+r1+r2].getNum()==0){
+									System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+r1+r2+1));
+								}
 							}
 						}
+					}
+					if(i+r2<25) {
 						if(b.pst[i+r2].getCol()==false || b.pst[i+r2].getNum()==0) {
 							System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+r2+1));
-							if(b.pst[i+r1+r2].getCol()==true ||b.pst[i-r1-r2].getNum()==0){
-								System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+r1+r2+1));
+							if(i+r1+r2<25) {
+								if(b.pst[i+r1+r2].getCol()==true || b.pst[i+r1+r2].getNum()==0){
+									System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+r1+r2+1));
+								}
 							}
 						}
 					}
 				}
 			}
+		whiteTurn = false;
 		} else {
 			System.out.println("black rolled "+r1+" and "+r2);
 			for(int i=23; i>0; i--) {
@@ -55,20 +62,26 @@ public class Game {
 					if(i-r1>=0)	{
 						if(b.pst[i-r1].getCol()==true || b.pst[i-r1].getNum()==0) {
 							System.out.println("a black pill from position "+(i+1)+" can move to position "+(i-r1+1));
-							if(b.pst[i-r1-r2].getCol()==true ||b.pst[i-r1-r2].getNum()==0){
-								System.out.println("a black pill from position "+(i+1)+" can move to position "+(i-r1-r2+1));
+							if(i-r1-r2>=0) {
+								if(b.pst[i-r1-r2].getCol()==true ||b.pst[i-r1-r2].getNum()==0) {
+									System.out.println("a black pill from position "+(i+1)+" can move to position "+(i-r1-r2+1));
+								}
 							}
 						}
+					}
+					if(i-r2>=0) {
 						if(b.pst[i-r2].getCol()==false || b.pst[i-r2].getNum()==0) {
 							System.out.println("a black pill from position "+(i+1)+" can move to position "+(i-r2+1));
-							if(b.pst[i-r1-r2].getCol()==true ||b.pst[i-r1-r2].getNum()==0){
-								System.out.println("a black pill from position "+(i+1)+" can move to position "+(i-r1-r2+1));
+							if(i-r1-r2>=0) {
+								if(b.pst[i-r1-r2].getCol()==true ||b.pst[i-r1-r2].getNum()==0){
+									System.out.println("a black pill from position "+(i+1)+" can move to position "+(i-r1-r2+1));
+								}
 							}
 						}
-						
 					}	
 				}
 			}
+		whiteTurn = true;
 		}
 	}
 	
