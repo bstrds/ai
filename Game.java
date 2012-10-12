@@ -22,6 +22,8 @@ public class Game {
 		}
 	}
 	
+	
+	
 	public void movegen() {
 		
 		byte r1 = b.roll();
