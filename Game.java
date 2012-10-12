@@ -28,54 +28,86 @@ public class Game {
 		
 		byte r1 = b.roll();
 		byte r2 = b.roll();
+		boolean iCol, ir1Col, ir2Col, ir1r2Col;
+		byte iNum, ir1Num, ir2Num, ir1r2Num;
 		if(whiteTurn) {
 			System.out.println("white rolled "+r1+" and "+r2);
 			for(int i=0; i<24; i++) {
-				if(b.pst[i].getCol()==false && b.pst[i].getNum()!=0) {
+				iCol = b.pst[i].getCol();
+				iNum = b.pst[i].getNum();
+				if(iCol==false && iNum!=0) {
 					if(i+r1<24) {
-						if(b.pst[i+r1].getCol()==false || b.pst[i+r1].getNum()==0) {
+						ir1Col = b.pst[i+r1].getCol();
+						ir1Num = b.pst[i+r1].getNum();
+						if((ir1Col==false || ir1Num==0) || (ir1Col==true) && (ir1Num==1)) {
 							System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+r1+1));
-							if(i+r1+r2<24) {	
-								if(b.pst[i+r1+r2].getCol()==true || b.pst[i+r1+r2].getNum()==0){
-									System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+r1+r2+1));
-								}
+							if(ir1Col) {
+								System.out.println("It will eat a black pill");
 							}
 						}
 					}
+					
 					if(i+r2<24) {
-						if(b.pst[i+r2].getCol()==false || b.pst[i+r2].getNum()==0) {
+						ir2Col = b.pst[i+r2].getCol();
+						ir2Num = b.pst[i+r2].getNum();
+						if((ir2Col==false || ir2Num==0) || (ir2Col==true) && (ir2Num==1)) {
 							System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+r2+1));
-							if(i+r1+r2<24) {
-								if(b.pst[i+r1+r2].getCol()==true || b.pst[i+r1+r2].getNum()==0){
-									System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+r1+r2+1));
-								}
+							if(ir2Col) {
+								System.out.println("It will eat a black pill");
 							}
 						}
 					}
+					
+					if(i+r1+r2<24) {	
+						ir1r2Col = b.pst[i+r1+r2].getCol();
+						ir1r2Num = b.pst[i+r1+r2].getNum();
+						if((ir1r2Col==false || ir1r2Num==0) || (ir1r2Col==true) && (ir1r2Num==1)) {
+							System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+r1+r2+1));
+							if(ir1r2Col) {
+								System.out.println("It will eat a black pill");
+							}
+						}
+					}	
 				}
 			}
 		whiteTurn = false;
+		
 		} else {
+			
 			System.out.println("black rolled "+r1+" and "+r2);
 			for(int i=23; i>0; i--) {
-				if(b.pst[i].getCol()==true && b.pst[i].getNum()!=0) {
+				iCol = b.pst[i].getCol();
+				iNum = b.pst[i].getNum();
+				if(iCol==true && iNum!=0) {
 					if(i-r1>=0)	{
-						if(b.pst[i-r1].getCol()==true || b.pst[i-r1].getNum()==0) {
+						ir1Col = b.pst[i-r1].getCol();
+						ir1Num = b.pst[i-r1].getNum();
+						if((ir1Col==true || ir1Num==0) || (ir1Col==false) && (ir1Num==1)) {
 							System.out.println("a black pill from position "+(i+1)+" can move to position "+(i-r1+1));
-							if(i-r1-r2>=0) {
-								if(b.pst[i-r1-r2].getCol()==true ||b.pst[i-r1-r2].getNum()==0) {
-									System.out.println("a black pill from position "+(i+1)+" can move to position "+(i-r1-r2+1));
-								}
+							if((ir1Col==false) && (ir1Num==1)) {
+								System.out.println("It will eat a white pill");
 							}
 						}
 					}
+					
 					if(i-r2>=0) {
-						if(b.pst[i-r2].getCol()==false || b.pst[i-r2].getNum()==0) {
+						ir2Col = b.pst[i-r2].getCol();
+						ir2Num = b.pst[i-r2].getNum();
+						if((ir2Col==true || ir2Num==0) || (ir2Col==false) && (ir2Num==1)) {
 							System.out.println("a black pill from position "+(i+1)+" can move to position "+(i-r2+1));
-							if(i-r1-r2>=0) {
-								if(b.pst[i-r1-r2].getCol()==true ||b.pst[i-r1-r2].getNum()==0){
-									System.out.println("a black pill from position "+(i+1)+" can move to position "+(i-r1-r2+1));
-								}
+							if((ir2Col==false) && (ir2Num==1)) {
+								System.out.println("It will eat a white pill");
+							}
+						}
+					}
+					
+					if(i-r1-r2>=0) {
+						ir1r2Col = b.pst[i-r1-r2].getCol();
+						ir1r2Num = b.pst[i-r1-r2].getNum();
+						if((ir1r2Col==true || ir1r2Num==0) || (ir1r2Col==false) && (ir1r2Num==1)) {
+							System.out.println("a black pill from position "+(i+1)+" can move to position "+(i-r1-r2+1));
+							if((ir1r2Col==false) && (ir1r2Num==1)) {
+								System.out.println("It will eat a white pill");
 							}
 						}
 					}	
