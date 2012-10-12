@@ -25,16 +25,26 @@ public class Game {
 	
 	
 	public void movegen() {
-		
-		byte r1 = b.roll();
-		byte r2 = b.roll();
+		boolean exoume_diples =false ;
+		byte r1 = 3;
+		byte r2 = 3;
 		boolean m1Happened = false;
 		boolean m2Happened = false;
 		boolean iCol, ir1Col, ir2Col, ir1r2Col;
+		//iCol =  xrwma tou i
+		//ir1Col = xrwma tou i + r1 
+		//ir2Col = xrwmta tou i + r2 
+		//ir1r2Col = xrwma tou i +r1 +r2
 		byte iNum, ir1Num, ir2Num, ir1r2Num;
+		//to idio me tous arithmous
+		if(r1==r2){
+			exoume_diples = true ;
+		}
 		if(whiteTurn) {
-			System.out.println("white rolled "+r1+" and "+r2);
+			System.out.println("\t\t\t\t\t white rolled "+r1+" and "+r2);
+			
 			for(int i=0; i<24; i++) {
+				if (!exoume_diples){	
 				iCol = b.pst[i].getCol();
 				iNum = b.pst[i].getNum();
 				if(iCol==false && iNum!=0) {
@@ -43,15 +53,18 @@ public class Game {
 						ir1Col = b.pst[i+r1].getCol();
 						ir1Num = b.pst[i+r1].getNum();
 						if((ir1Col==false || ir1Num==0) || (ir1Col==true) && (ir1Num==1)) {
+							
+							
 							System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+r1+1));
 							m1Happened = true;
+							
 							if(ir1Col) {
 								System.out.println("It will eat a black pill");
 							}
 						}
 					}
-					
 					if(i+r2<24) {
+						if(!exoume_diples){
 						ir2Col = b.pst[i+r2].getCol();
 						ir2Num = b.pst[i+r2].getNum();
 						if((ir2Col==false || ir2Num==0) || (ir2Col==true) && (ir2Num==1)) {
@@ -60,6 +73,7 @@ public class Game {
 							if(ir2Col) {
 								System.out.println("It will eat a black pill");
 							}
+						}
 						}
 					}
 					
@@ -74,8 +88,32 @@ public class Game {
 								}
 							}
 						}
-					}	
+					}
 				}
+				}
+				else if(exoume_diples){
+						int counter_diplwn = 1;
+						int sunoliko_mikos ;
+						ir1r2Col = false ;
+						ir1r2Num = b.pst[i].getNum();
+						if(ir1r2Num != 0){
+						while(counter_diplwn <= 4 && !(ir1r2Num >= 2 && ir1r2Col) && i+counter_diplwn*r1 < 24 ){
+							ir1r2Col = b.pst[i+counter_diplwn*r1].getCol();
+							ir1r2Num = b.pst[i+counter_diplwn*r1].getNum();
+							if((ir1r2Col==false || ir1r2Num==0) || (ir1r2Col==true) && (ir1r2Num==1)) {
+								System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+counter_diplwn*r1+1));
+								if(ir1r2Col) {
+									System.out.println("It will eat a black pill");
+								}
+							}
+							counter_diplwn ++ ;
+						}
+						}
+						
+					
+					
+				}
+				
 			m1Happened = false;
 			m2Happened = false;
 			}
