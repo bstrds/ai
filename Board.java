@@ -7,8 +7,8 @@ public class Board {
 
 	public Board(){
 
-		pst = new Position[26];
-		for(int i=0; i<26; i++) {
+		pst = new Position[28];
+		for(int i=0; i<28; i++) {
 		pst[i] = new Position();
 		}
 	}
@@ -26,14 +26,10 @@ public class Board {
 
 	}
 
-	public byte roll() {
-		byte dice = (byte)((Math.random()*6)+1);
-		return dice;
-	}
 
 
 	public void print() {
-		for(int i=0; i<26; i++) {
+		for(int i=0; i<24; i++) {
 			if(pst[i].getNum() != 0) {
 				System.out.println(pst[i].getNum()+" "+pst[i].getCol());
 			} else {

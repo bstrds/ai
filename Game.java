@@ -11,8 +11,8 @@ public class Game {
 		b = new Board();
 		b.init();
 		do { 
-		wr = b.roll();
-		br = b.roll();
+		wr = (byte)((Math.random()*6)+1);
+		br = (byte)((Math.random()*6)+1);
 		} while (wr==br);
 		first(wr,br);
 		if (whiteFirst) {
@@ -22,26 +22,28 @@ public class Game {
 		}
 	}
 	
+	/*
+	 * rolls two dice
+	 * TODO: figure out if it needs a return statement
+	 */
+	public void roll() {
+		byte dice1 = (byte)((Math.random()*6)+1);
+		byte dice2 = (byte)((Math.random()*6)+1);
+	    movegen(dice1, dice2);
+	}
 	
 	
-	public void movegen() {
+	/*
+	 * a method that prins every possible legal move a player (computer or human) can perform, according to the dice they rolled.
+	 * TODO: exei dromo akoma
+	 */
+	
+	public void movegen(byte r1, byte r2) {
 		boolean exoume_diples =false ;
-		byte r1 = b.roll();
-		byte r2 = b.roll();
 		boolean m1Happened = false;
 		boolean m2Happened = false;
 		boolean iCol, ir1Col, ir2Col, ir1r2Col, idubsCol;
-		/*iCol =  xrwma tou i
-		 *ir1Col = xrwma tou i + r1 
-		 *ir2Col = xrwmta tou i + r2 
-		 *ir1r2Col = xrwma tou i +r1 +r2
-		 *idubsCol = xrwma tou i + r1 ews i + 4*r1 
-		 * 
-		 */
 		byte iNum, ir1Num, ir2Num, ir1r2Num, idubsNum;
-		/*to idio me tous arithmous
-		 * 
-		 */
 		if(r1==r2){
 			exoume_diples = true ;
 		}

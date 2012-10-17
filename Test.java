@@ -8,7 +8,7 @@ public class Test {
 		a1.b.pst[21].setCol(false);
 		a1.b.pst[21].setNum((byte)1);
 		for(int i=0; i<20; i++) {
-			a1.movegen();
+			a1.roll();
 		}
 		
 	}
