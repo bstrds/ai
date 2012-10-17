@@ -35,7 +35,7 @@ public class Game {
 	
 	/*
 	 * a method that prins every possible legal move a player (computer or human) can perform, according to the dice they rolled.
-	 * TODO: exei dromo akoma
+	 * TODO: exei dromo akoma .@!#
 	 */
 	
 	public void movegen(byte r1, byte r2) {
