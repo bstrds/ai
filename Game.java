@@ -10,11 +10,12 @@ public class Game {
 	Board b;
 	boolean whiteFirst;
 	boolean whiteTurn;
-	Set<String> moveSet = new HashSet<String>();
+	Set<String> moveSet;
 	
 	public Game() {
 		
 		byte wr,br;
+		moveSet = new HashSet<String>();
 		b = new Board();
 		b.init();
 		do { 
@@ -27,6 +28,7 @@ public class Game {
 		} else {
 			whiteTurn=false;
 		}
+		
 	}
 	
 	/*
@@ -42,10 +44,12 @@ public class Game {
 	
 	/*
 	 * a method that prins every possible legal move a player (computer or human) can perform, according to the dice they rolled.
-	 * TODO: exei dromo akoma .@!#
+	 * TODO: pame ksana gia ta mavra
 	 */
 	
 	public void movegen(byte r1, byte r2) {
+		
+
 		boolean exoume_diples = false ;
 		boolean lastRun = false;
 		boolean m1Happened = false;
@@ -54,57 +58,72 @@ public class Game {
 		byte iNum, ir1Num, ir2Num, ir1r2Num, idubsNum;
 		byte lastCounter = 0;
 		
+		/* check if we have dubs */
 		if(r1==r2){
 			exoume_diples = true ;
 		}
 		
+		/* self-explanatory */
 		if(whiteTurn) {
 			
+			//to be removed
 			System.out.println("\t\t\t\t\t white rolled "+r1+" and "+r2);
 			
+			/* check to see if we are in last run mode */
 			for(int i=0; i<18; i++) {
 				if(b.pst[i].getCol()==false && b.pst[i].getNum() != 0) {
 					lastCounter++;
 				}
 			}
-			
 			if(lastCounter==0) {
 				lastRun = true;
 			}
 			
+			/* loop that goes through every position on the board */
 			for(int i=0; i<24; i++) {
 				
+				/* legal moves for non-double dice rolls */
 				if (!exoume_diples) {	
 					
-					/* get the color and number of pills that exist in the current position(i) */
+					/* gets the color and number of pills that exist in the current position(i) */
 					iCol = b.pst[i].getCol();
 					iNum = b.pst[i].getNum();
 					
 					/* if the color is white, and there are some pills in the position, continue */
 					if(iCol==false && iNum!=0) {
 						
-						/* if the position we are trying to move to is within the game borders, continue */
+						/* if the position the first dice brings us to is within the game borders, continue */
 						if(i+r1<24) {
 							
+							/* gets the color and number of pills of the position we are trying to move to */
 							ir1Col = b.pst[i+r1].getCol();
 							ir1Num = b.pst[i+r1].getNum();
+							
+							/* checks to see if we can move there legally */
 							if((ir1Col==false || ir1Num==0) || (ir1Col==true) && (ir1Num==1)) {
 								
 								/* we print the legal moves, and also add them to moveSet */
 								System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+r1+1));
 								moveSet.add((i+1)+" -> "+(i+r1+1));
+								/* tells us the first dice produced a legal move */
 								m1Happened = true;
 								
+								/* not sure if this is useful in this method */
 								if(ir1Col) {
 									System.out.println("It will eat a black pill");
 								}
 							}
+							
+						/* if the position we are trying to move to exceeds the game borders, and we are in last run mode, continue */	
 						} else if (((i+r1) >= 24) && lastRun) {
+							
+							/* again, prints legal moves and adds them to the set */
 							System.out.println("a white pill from position "+(i+1)+" can move out of the board");
 							moveSet.add((i+1)+" -> out");
 							m1Happened = true;
 						}
 						
+						/* same stuff for the second dice */
 						if(i+r2<24) {
 							ir2Col = b.pst[i+r2].getCol();
 							ir2Num = b.pst[i+r2].getNum();
@@ -122,11 +141,14 @@ public class Game {
 							moveSet.add((i+1)+" -> out");
 							m2Happened = true;
 						}
-					
+						
+						/* legal moves for the addition of both dice */
 						if(i+r1+r2<24) {	
 							
+							/* checks if at least one of the two dice gives us a legal move in order to continue */
 							if(m1Happened || m2Happened) {
 								
+								/* same stuff as before */
 								ir1r2Col = b.pst[i+r1+r2].getCol();
 								ir1r2Num = b.pst[i+r1+r2].getNum();
 								if((ir1r2Col==false || ir1r2Num==0) || (ir1r2Col==true) && (ir1r2Num==1)) {
@@ -137,6 +159,8 @@ public class Game {
 									}
 								}
 							}
+							
+						/* last run check for both dice */
 						} else if(((i+r1+r2) >=24) && lastRun) {
 							if(m1Happened || m2Happened) {
 								System.out.println("a white pill from position "+(i+1)+" can move out of the board");
@@ -146,6 +170,7 @@ public class Game {
 					}
 				}
 				
+				/* legal moves for double dice rolls */
 				else if(exoume_diples) {
 					
 					byte counter_diplwn = 1;
