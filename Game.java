@@ -1,9 +1,16 @@
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+
+
 
 public class Game {
 	
 	Board b;
 	boolean whiteFirst;
 	boolean whiteTurn;
+	Set<String> moveSet = new HashSet<String>();
 	
 	public Game() {
 		
@@ -82,8 +89,10 @@ public class Game {
 							ir1Col = b.pst[i+r1].getCol();
 							ir1Num = b.pst[i+r1].getNum();
 							if((ir1Col==false || ir1Num==0) || (ir1Col==true) && (ir1Num==1)) {
-				
+								
+								/* we print the legal moves, and also add them to moveSet */
 								System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+r1+1));
+								moveSet.add((i+1)+" -> "+(i+r1+1));
 								m1Happened = true;
 								
 								if(ir1Col) {
@@ -92,6 +101,7 @@ public class Game {
 							}
 						} else if (((i+r1) >= 24) && lastRun) {
 							System.out.println("a white pill from position "+(i+1)+" can move out of the board");
+							moveSet.add((i+1)+" -> out");
 							m1Happened = true;
 						}
 						
@@ -100,6 +110,7 @@ public class Game {
 							ir2Num = b.pst[i+r2].getNum();
 							if((ir2Col==false || ir2Num==0) || (ir2Col==true) && (ir2Num==1)) {
 								System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+r2+1));
+								moveSet.add((i+1)+" -> "+(i+r2+1));
 								m2Happened = true;
 								if(ir2Col) {
 									System.out.println("It will eat a black pill");
@@ -108,6 +119,7 @@ public class Game {
 						
 						} else if (((i+r2) >= 24) && lastRun) {
 							System.out.println("a white pill from position "+(i+1)+" can move out of the board");
+							moveSet.add((i+1)+" -> out");
 							m2Happened = true;
 						}
 					
@@ -119,6 +131,7 @@ public class Game {
 								ir1r2Num = b.pst[i+r1+r2].getNum();
 								if((ir1r2Col==false || ir1r2Num==0) || (ir1r2Col==true) && (ir1r2Num==1)) {
 									System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+r1+r2+1));
+									moveSet.add((i+1)+" -> "+(i+r1+r2+1));
 									if(ir1r2Col) {
 										System.out.println("It will eat a black pill");
 									}
@@ -127,6 +140,7 @@ public class Game {
 						} else if(((i+r1+r2) >=24) && lastRun) {
 							if(m1Happened || m2Happened) {
 								System.out.println("a white pill from position "+(i+1)+" can move out of the board");
+								moveSet.add((i+1)+" -> out");
 							}
 						}
 					}
@@ -145,6 +159,7 @@ public class Game {
 								if((idubsCol==false || idubsNum==0) || (idubsCol==true) && (idubsNum==1)) {
 									do {
 										System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+counter_diplwn*r1+1));
+										moveSet.add((i+1)+" -> "+(i+counter_diplwn*r1+1));
 										if(idubsCol) {
 											System.out.println("It will eat a black pill");
 										}
@@ -164,6 +179,7 @@ public class Game {
 									if((idubsCol==false || idubsNum==0) || (idubsCol==true) && (idubsNum==1)) {
 										
 										System.out.println("a white pill from position "+(i+1)+" can move to position "+(i+counter_diplwn*r1+1));
+										moveSet.add((i+1)+" -> "+(i+counter_diplwn*r1+1));
 										if(idubsCol) {
 											System.out.println("It will eat a black pill");
 										}	
@@ -177,6 +193,7 @@ public class Game {
 									if(iNum>0) {
 										do {
 											System.out.println("a white pill from position "+(i+1)+" can move out of the board ");
+											moveSet.add((i+1)+" -> out");
 											iNum--;
 										} while(iNum>0);
 										counter_diplwn++;
@@ -191,6 +208,11 @@ public class Game {
 			m2Happened = false;
 			}
 		whiteTurn = false;
+		Iterator<String> it = moveSet.iterator();
+        while (it.hasNext()) {
+                System.out.println(it.next());
+        } 
+        moveSet.clear();
 		
 		} else {
 			
