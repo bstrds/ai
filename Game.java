@@ -196,6 +196,7 @@ public class Game {
 								}
 								counter_diplwn ++ ;
 							}
+						/* dubs last run mode legals */
 						} else if(lastRun) {
 							while(counter_diplwn < 5) {
 								if(i+counter_diplwn*r1 < 24) {
