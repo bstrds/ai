@@ -44,7 +44,7 @@ public class Game {
 	
 	/*
 	 * a method that prins every possible legal move a player (computer or human) can perform, according to the dice they rolled.
-	 * TODO: pame ksana gia ta mavra
+	 * 
 	 */
 	
 	public void movegen(byte r1, byte r2) {
@@ -359,6 +359,7 @@ public class Game {
 		}
 	}
 	
+	
 	public void first(byte wr, byte br) {
 		
 		if(wr>br) {
@@ -370,3 +371,4 @@ public class Game {
 		}
 	}
 }
+	
