@@ -40,6 +40,7 @@ public class Game {
 		byte dice1 = (byte)((Math.random()*6)+1);
 		byte dice2 = (byte)((Math.random()*6)+1);
 	    movegen(dice1, dice2);
+	    move((byte)(dice1+dice2),dice1,dice2);
 	}
 	
 	
@@ -55,13 +56,23 @@ public class Game {
 		boolean lastRun = false;
 		boolean m1Happened = false;
 		boolean m2Happened = false;
-		boolean iCol, ir1Col, ir2Col, ir1r2Col, idubsCol;
+		boolean iCol, ir1Col, ir2Col, ir1r2Col, idubsCol, bEaten, wEaten;
 		byte iNum, ir1Num, ir2Num, ir1r2Num, idubsNum;
 		byte lastCounter = 0;
 		
 		/* check if we have dubs */
 		if(r1==r2){
 			exoume_diples = true ;
+		}
+		
+		/* checks to see if white has eaten pills */
+		if(b.pst[24].getNum()>0) {
+			wEaten = true;
+		}
+		
+		/* checks to see if black has eaten pills */
+		if(b.pst[25].getNum()>0) {
+			bEaten = true;
 		}
 		
 		/* self-explanatory */
@@ -361,15 +372,18 @@ public class Game {
 		}
 	}
 	
-	public void move() {
+	/* method for the actual moving of pills, checks every move against the moveSet */
+	public void move(byte max, byte r1, byte r2) {
 		String mov;
 		int a1,a2;
+		int plays;
+		boolean playedr1, playedr2;;
 		if(whiteTurn) {
 			System.out.println("it's white's turn");
 		} else {
 			System.out.println("it's black's turn");
 		}
-		System.out.println("type your move. (style: 1->10)");
+		System.out.println("type your move. (style: 1 -> 10)");
 		InputStreamReader read = new InputStreamReader(System.in);
 		BufferedReader in = new BufferedReader(read);
 		try {
@@ -380,22 +394,31 @@ public class Game {
 				try {
 					a1 = Integer.parseInt(mov.substring(0, 2));
 					a2 = Integer.parseInt(mov.substring(6));
-					if(whiteTurn && b.pst[a2-1].getCol()) {
-						b.pst[a2-1].decr();
-						b.pst[a2-1].setCol(false);
-						b.pst[25].incr();
-						b.pst[25].setCol(true);
-					} else if(whiteTurn==false && b.pst[a2-1].getCol()==false && b.pst[a2-1].getNum()>0) {
-						b.pst[a2-1].decr();
-						b.pst[a2-1].setCol(true);
-						b.pst[24].incr();
-						b.pst[24].setCol(false);
+					plays = Math.abs(a1-a2);
+					if(plays == r1) {
+						playedr1 = true;
+					} else if(plays == r2) {
+						playedr2 = true;
 					}
-					if(whiteTurn==false) {
-						b.pst[a2-1].setCol(true);
-					}
-					b.pst[a1-1].decr();
-					b.pst[a2-1].incr();
+					if(plays==max) {
+						
+						if(whiteTurn && b.pst[a2-1].getCol()) {
+							b.pst[a2-1].decr();
+							b.pst[a2-1].setCol(false);
+							b.pst[25].incr();
+							b.pst[25].setCol(true);
+						} else if(whiteTurn==false && b.pst[a2-1].getCol()==false && b.pst[a2-1].getNum()>0) {
+							b.pst[a2-1].decr();
+							b.pst[a2-1].setCol(true);
+							b.pst[24].incr();
+							b.pst[24].setCol(false);
+						}
+						if(whiteTurn==false) {
+							b.pst[a2-1].setCol(true);
+						}
+						b.pst[a1-1].decr();
+						b.pst[a2-1].incr();
+					} 
 					
 				} catch (NumberFormatException nfe) {
 					a1 = Integer.parseInt(mov.substring(0, 1));
