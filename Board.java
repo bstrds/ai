@@ -41,7 +41,7 @@ public class Board {
 	public void draw() {
 		for(int i=11; i>=0; i--) {
 			System.out.print("|");
-			if(pst[i].getCol()&&pst[i].getNum()>0) {
+			if(pst[i].getCol() && pst[i].getNum()>0) {
 				System.out.print("b"+pst[i].getNum());
 			} else if(pst[i].getCol()==false && pst[i].getNum()>0) {
 				System.out.print("w"+pst[i].getNum());
@@ -52,7 +52,7 @@ public class Board {
 		System.out.println();
 		for(int i=12; i<24; i++) {
 			System.out.print("|");
-			if(pst[i].getCol()&&pst[i].getNum()>0) {
+			if(pst[i].getCol() && pst[i].getNum()>0) {
 				System.out.print("b"+pst[i].getNum());
 			} else if(pst[i].getCol()==false && pst[i].getNum()>0) {
 				System.out.print("w"+pst[i].getNum());
