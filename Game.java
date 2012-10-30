@@ -100,14 +100,14 @@ public class Game {
 					ir1Col = b.pst[r1-1].getCol();
 					ir1Num = b.pst[r1-1].getNum();
 					if((ir1Col==false || ir1Num==0) || (ir1Col==true) && (ir1Num==1)) {
-						moveSet.add("out -> "+r1);
+						moveSet.add("out."+r1);
 						m1Happened = true;
 					}
 					
 					ir2Col = b.pst[r2-1].getCol();
 					ir2Num = b.pst[r2-1].getNum();
 					if((ir2Col==false || ir2Num==0) || (ir2Col==true) && (ir2Num==1)) {
-						moveSet.add("out -> "+r2);
+						moveSet.add("out."+r2);
 						m2Happened = true;
 					}
 					
@@ -116,7 +116,7 @@ public class Game {
 						ir1r2Col = b.pst[r1+r2-1].getCol();
 						ir1r2Num = b.pst[r1+r2-1].getNum();
 						if((ir1r2Col==false || ir1r2Num==0) || (ir1r2Col==true) && (ir1r2Num==1)) {
-							moveSet.add("out -> "+(r1+r2));
+							moveSet.add("out."+(r1+r2));
 						}
 					}
 				} else if(exoume_diples) {
@@ -128,7 +128,7 @@ public class Game {
 						idubsNum = b.pst[(counter_diplwn*r1)-1].getNum();
 						if((idubsCol==false || idubsNum==0) || (idubsCol==true) && (idubsNum==1)) {
 							
-							moveSet.add("out -> "+(counter_diplwn*(r1)));
+							moveSet.add("out."+(counter_diplwn*(r1)));
 							
 						} else {
 							break;
@@ -162,7 +162,7 @@ public class Game {
 								if((ir1Col==false || ir1Num==0) || (ir1Col==true) && (ir1Num==1)) {
 									
 									/* we print the legal moves, and also add them to moveSet */
-									moveSet.add((i+1)+" -> "+(i+r1+1));
+									moveSet.add((i+1)+"."+(i+r1+1));
 									/* tells us the first dice produced a legal move */
 									m1Happened = true;
 									
@@ -176,7 +176,7 @@ public class Game {
 							} else if (((i+r1) >= 24) && lastRun) {
 								
 								/* again, prints legal moves and adds them to the set */
-								moveSet.add((i+1)+" -> out");
+								moveSet.add((i+1)+".out");
 								m1Happened = true;
 							}
 							
@@ -186,7 +186,7 @@ public class Game {
 								ir2Num = b.pst[i+r2].getNum();
 								if((ir2Col==false || ir2Num==0) || (ir2Col==true) && (ir2Num==1)) {
 	
-									moveSet.add((i+1)+" -> "+(i+r2+1));
+									moveSet.add((i+1)+"."+(i+r2+1));
 									m2Happened = true;
 									if(ir2Col) {
 										System.out.println("It will eat a black pill");
@@ -195,7 +195,7 @@ public class Game {
 							
 							} else if (((i+r2) >= 24) && lastRun) {
 	
-								moveSet.add((i+1)+" -> out");
+								moveSet.add((i+1)+".out");
 								m2Happened = true;
 							}
 							
@@ -210,7 +210,7 @@ public class Game {
 									ir1r2Num = b.pst[i+r1+r2].getNum();
 									if((ir1r2Col==false || ir1r2Num==0) || (ir1r2Col==true) && (ir1r2Num==1)) {
 										
-										moveSet.add((i+1)+" -> "+(i+r1+r2+1));
+										moveSet.add((i+1)+"."+(i+r1+r2+1));
 										//TODO: possibly remove this check entirely
 										if(ir1r2Col) {
 											System.out.println("It will eat a black pill");
@@ -222,7 +222,7 @@ public class Game {
 							} else if(((i+r1+r2) >=24) && lastRun) {
 								if(m1Happened || m2Happened) {
 	
-									moveSet.add((i+1)+" -> out");
+									moveSet.add((i+1)+".out");
 								}
 							}
 						}
@@ -241,7 +241,7 @@ public class Game {
 									idubsNum = b.pst[i+counter_diplwn*r1].getNum();
 									if((idubsCol==false || idubsNum==0) || (idubsCol==true) && (idubsNum==1)) {
 										
-										moveSet.add((i+1)+" -> "+(i+counter_diplwn*r1+1));
+										moveSet.add((i+1)+"."+(i+counter_diplwn*r1+1));
 										//TODO: possibly remove this check entirely
 										if(idubsCol) {
 											System.out.println("It will eat a black pill");
@@ -259,7 +259,7 @@ public class Game {
 										idubsNum = b.pst[i+counter_diplwn*r1].getNum();
 										if((idubsCol==false || idubsNum==0) || (idubsCol==true) && (idubsNum==1)) {
 											
-											moveSet.add((i+1)+" -> "+(i+counter_diplwn*r1+1));
+											moveSet.add((i+1)+"."+(i+counter_diplwn*r1+1));
 											//TODO: possibly remove this check entirely
 											if(idubsCol) {
 												System.out.println("It will eat a black pill");
@@ -272,7 +272,7 @@ public class Game {
 										
 									} else {
 										if(iNum>0) {
-											moveSet.add((i+1)+" -> out");	
+											moveSet.add((i+1)+".out");	
 											counter_diplwn++;
 										}	
 									}
@@ -313,14 +313,14 @@ public class Game {
 					ir1Col = b.pst[24-r1].getCol();
 					ir1Num = b.pst[24-r1].getNum();
 					if((ir1Col==true || ir1Num==0) || (ir1Col==false) && (ir1Num==1)) {
-						moveSet.add("out -> "+(24-r1));
+						moveSet.add("out."+(24-r1+1));
 						m1Happened = true;
 					}
 					
 					ir2Col = b.pst[24-r2].getCol();
 					ir2Num = b.pst[24-r2].getNum();
 					if((ir2Col==true || ir2Num==0) || (ir2Col==false) && (ir2Num==1)) {
-						moveSet.add("out -> "+(24-r2));
+						moveSet.add("out."+(24-r2+1));
 						m2Happened = true;
 					}
 					
@@ -329,7 +329,7 @@ public class Game {
 						ir1r2Col = b.pst[24-(r1+r2)].getCol();
 						ir1r2Num = b.pst[24-(r1+r2)].getNum();
 						if((ir1r2Col==true || ir1r2Num==0) || (ir1r2Col==false) && (ir1r2Num==1)) {
-							moveSet.add("out -> "+(24-(r1+r2)));
+							moveSet.add("out."+(24-(r1+r2+1)));
 						}
 					}
 				} else if(exoume_diples) {
@@ -341,7 +341,7 @@ public class Game {
 						idubsNum = b.pst[24-counter_diplwn*(r1)].getNum();
 						if((idubsCol==true || idubsNum==0) || (idubsCol==false) && (idubsNum==1)) {
 							
-							moveSet.add("out -> "+(24-counter_diplwn*(r1)));
+							moveSet.add("out."+(24-counter_diplwn*(r1)));
 							
 						} else {
 							break;
@@ -360,14 +360,14 @@ public class Game {
 								ir1Col = b.pst[i-r1].getCol();
 								ir1Num = b.pst[i-r1].getNum();
 								if((ir1Col==true || ir1Num==0) || (ir1Col==false) && (ir1Num==1)) {
-									moveSet.add((i+1)+" -> "+(i-r1+1));
+									moveSet.add((i+1)+"."+(i-r1+1));
 									m1Happened = true;
 									if((ir1Col==false) && (ir1Num==1)) {
 										System.out.println("It will eat a white pill");
 									}
 								}
 							} else if (((i-r1) < 0) && lastRun) {
-								moveSet.add((i+1)+" -> out");
+								moveSet.add((i+1)+".out");
 								m1Happened = true;
 							}
 							
@@ -375,14 +375,14 @@ public class Game {
 								ir2Col = b.pst[i-r2].getCol();
 								ir2Num = b.pst[i-r2].getNum();
 								if((ir2Col==true || ir2Num==0) || (ir2Col==false) && (ir2Num==1)) {
-									moveSet.add((i+1)+" -> "+(i-r2+1));
+									moveSet.add((i+1)+"."+(i-r2+1));
 									m2Happened = true;
 									if((ir2Col==false) && (ir2Num==1)) {
 										System.out.println("It will eat a white pill");
 									}
 								}
 							} else if (((i+r2) < 0) && lastRun) {
-								moveSet.add((i+1)+" -> out");
+								moveSet.add((i+1)+".out");
 								m2Happened = true;
 							}
 							
@@ -391,7 +391,7 @@ public class Game {
 									ir1r2Col = b.pst[i-r1-r2].getCol();
 									ir1r2Num = b.pst[i-r1-r2].getNum();
 									if((ir1r2Col==true || ir1r2Num==0) || (ir1r2Col==false) && (ir1r2Num==1)) {
-										moveSet.add((i+1)+" -> "+(i-r1-r2+1));
+										moveSet.add((i+1)+"."+(i-r1-r2+1));
 										if((ir1r2Col==false) && (ir1r2Num==1)) {
 											System.out.println("It will eat a white pill");
 										}
@@ -399,7 +399,7 @@ public class Game {
 								}
 							} else if(((i-r1-r2) < 0) && lastRun) {
 								if(m1Happened || m2Happened) {
-									moveSet.add((i+1)+" -> out");
+									moveSet.add((i+1)+".out");
 								}
 							}	
 						}	
@@ -417,7 +417,7 @@ public class Game {
 									idubsCol = b.pst[i-counter_diplwn*r1].getCol();
 									idubsNum = b.pst[i-counter_diplwn*r1].getNum();
 									if((idubsCol==true || idubsNum==0) || ((idubsCol==false) && (idubsNum==1))) {
-										moveSet.add((i+1)+" -> "+((i-counter_diplwn*r1)+1));
+										moveSet.add((i+1)+"."+((i-counter_diplwn*r1)+1));
 										if(idubsCol==false && idubsNum>0) {
 											System.out.println("It will eat a white pill");
 										}
@@ -432,7 +432,7 @@ public class Game {
 										idubsCol = b.pst[i-counter_diplwn*r1].getCol();
 										idubsNum = b.pst[i-counter_diplwn*r1].getNum();
 										if((idubsCol==true || idubsNum==0) || ((idubsCol==false) && (idubsNum==1))) {
-											moveSet.add((i+1)+" -> "+((i-counter_diplwn*r1)+1));
+											moveSet.add((i+1)+"."+((i-counter_diplwn*r1)+1));
 											if(idubsCol==false && idubsNum>0) {
 												System.out.println("It will eat a white pill");
 											}
@@ -442,7 +442,7 @@ public class Game {
 										counter_diplwn ++ ;
 									} else {
 										if(iNum>0) {
-											moveSet.add((i+1)+" -> out");	
+											moveSet.add((i+1)+".out");	
 											counter_diplwn++;
 										}	
 									}
@@ -465,97 +465,97 @@ public class Game {
 	/* method for the actual moving of pills, checks every move against the moveSet */
 	public void move(byte max, byte r1, byte r2) {
 		String mov;
-		int a1,a2;
-		int plays;
-		boolean playedr1, playedr2;;
+		boolean gotit = false;
+		boolean finished = false;
 		if(whiteTurn) {
 			System.out.println("it's white's turn");
 		} else {
 			System.out.println("it's black's turn");
 		}
-		System.out.println("type your move. (style: 1 -> 10)");
+		System.out.println("type your move. (style: 1.10)");
 		InputStreamReader read = new InputStreamReader(System.in);
 		BufferedReader in = new BufferedReader(read);
+		
 		try {
-			mov = in.readLine();
-			System.out.println(mov);
 			
-			if (moveSet.contains(mov)) {
-				if(mov.substring(0,3).equals("out")) {
-					a2 = Integer.parseInt(mov.substring(7));
-					if(whiteTurn&& b.pst[a2-1].getCol()) {
-						b.pst[a2-1].decr();
-						b.pst[a2-1].setCol(false);
-						b.pst[25].incr();
-						b.pst[25].setCol(true);
-					} else if(whiteTurn==false && b.pst[a2-1].getCol()==false && b.pst[a2-1].getNum()>0) {
-						b.pst[a2-1].decr();
-						b.pst[a2-1].setCol(true);
-						b.pst[24].incr();
-						b.pst[24].setCol(false);
-					}
-					if(whiteTurn==false) {
-						b.pst[a2-1].setCol(true);
-					}
-					b.pst[24].decr();
-					b.pst[a2-1].incr();
-				} else {
-					
-					try {
-						a1 = Integer.parseInt(mov.substring(0, 2));
-						a2 = Integer.parseInt(mov.substring(6));
-						plays = Math.abs(a1-a2);
-						if(plays == r1) {
-							playedr1 = true;
-						} else if(plays == r2) {
-							playedr2 = true;
-						}
-						if(plays==max) {
-							
-							if(whiteTurn && b.pst[a2-1].getCol()) {
-								b.pst[a2-1].decr();
-								b.pst[a2-1].setCol(false);
+			while(!gotit) {
+				
+				//TODO: change this to work for the gui
+				mov = in.readLine();
+				
+				if (moveSet.contains(mov)) {
+					gotit = true;
+					System.out.println(mov);
+					String delimiter = "\\.";
+					String[] tokens = mov.split(delimiter);
+					if(whiteTurn) {
+						if(tokens[0].equals("out")) {
+							int temp = Integer.parseInt(tokens[1]);
+							if(b.pst[temp-1].getCol()) {
 								b.pst[25].incr();
-								b.pst[25].setCol(true);
-							} else if(whiteTurn==false && b.pst[a2-1].getCol()==false && b.pst[a2-1].getNum()>0) {
-								b.pst[a2-1].decr();
-								b.pst[a2-1].setCol(true);
-								b.pst[24].incr();
-								b.pst[24].setCol(false);
+								b.pst[temp-1].setCol(false);
+								b.pst[24].decr();
+							} else {
+								b.pst[temp-1].incr();
+								b.pst[temp-1].setCol(false);
+								b.pst[24].decr();
 							}
-							if(whiteTurn==false) {
-								b.pst[a2-1].setCol(true);
+						} else if(tokens[1].equals("out")) {
+							int temp = Integer.parseInt(tokens[0]);
+							b.pst[26].incr();
+							b.pst[temp-1].decr();
+						} else {
+							int temp1 = Integer.parseInt(tokens[0]);
+							int temp2 = Integer.parseInt(tokens[1]);
+							if(b.pst[temp2-1].getCol()) {
+								b.pst[25].incr();
+								b.pst[temp2-1].setCol(false);
+								b.pst[temp1-1].decr();
+							} else {
+								b.pst[temp2-1].incr();
+								b.pst[temp2-1].setCol(false);
+								b.pst[temp1-1].decr();
 							}
-							b.pst[a1-1].decr();
-							b.pst[a2-1].incr();
-						} 
-						
-					} catch (NumberFormatException nfe) {
-						a1 = Integer.parseInt(mov.substring(0, 1));
-						a2 = Integer.parseInt(mov.substring(5));
-						if(whiteTurn && b.pst[a2-1].getCol()) {
-							b.pst[a2-1].decr();
-							b.pst[a2-1].setCol(false);
-							b.pst[25].incr();
-							b.pst[25].setCol(true);
-						} else if(whiteTurn==false && b.pst[a2-1].getCol()==false && b.pst[a2-1].getNum()>0) {
-							b.pst[a2-1].decr();
-							b.pst[a2-1].setCol(true);
-							b.pst[24].incr();
-							b.pst[24].setCol(false);
-						} 
-						if(whiteTurn==false) {
-							b.pst[a2-1].setCol(true);
 						}
-						b.pst[a1-1].decr();
-						b.pst[a2-1].incr();
+						
+					} else {
+						if(tokens[0].equals("out")) {
+							int temp = Integer.parseInt(tokens[1]);
+							if(!(b.pst[temp-1].getCol()) && b.pst[temp-1].getNum()==1) {
+								b.pst[24].incr();
+								b.pst[temp-1].setCol(true);
+								b.pst[25].decr();
+							} else {
+								b.pst[temp-1].incr();
+								b.pst[temp-1].setCol(true);
+								b.pst[25].decr();
+							}
+						} else if(tokens[1].equals("out")) {
+							int temp = Integer.parseInt(tokens[0]);
+							b.pst[27].incr();
+							b.pst[temp-1].decr();
+						} else {
+							int temp1 = Integer.parseInt(tokens[0]);
+							int temp2 = Integer.parseInt(tokens[1]);
+							if(!(b.pst[temp2-1].getCol()) && b.pst[temp2-1].getNum()==1) {
+								b.pst[24].incr();
+								b.pst[temp2-1].setCol(true);
+								b.pst[temp1-1].decr();
+							} else {
+								b.pst[temp2-1].incr();
+								b.pst[temp2-1].setCol(true);
+								b.pst[temp1-1].decr();
+							}
+						}
 					}
+					
+				} else {
+					System.out.println("you entered an invalid move, please try again");
 				}
 			}
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
-		
 	whiteTurn = !whiteTurn;	
 	}
 	
