@@ -613,7 +613,7 @@ public class Game {
 	public void move(byte max, byte r1, byte r2) {
 		String mov;
 		boolean gotit = false;
-		boolean finished = false;
+		byte counter = 0;
 		if(whiteTurn) {
 			System.out.println("it's white's turn");
 		} else {
@@ -625,94 +625,136 @@ public class Game {
 		
 		try {
 			
-			while(!finished) {
+			while(true) {
 				
-				while(!gotit) {
+				//TODO: change this to work for the gui
+				mov = in.readLine();
+				counter++;
+				System.out.println("counter: "+counter);
+				
+				if (moveSet.contains(mov)) {
+						
 					
-					//TODO: change this to work for the gui
-					mov = in.readLine();
-					
-					if (moveSet.contains(mov)) {
-						gotit = true;
-						System.out.println(mov);
-						String delimiter = "\\.";
-						String[] tokens = mov.split(delimiter);
-						if(whiteTurn) {
-							if(tokens[0].equals("out")) {
-								int temp = Integer.parseInt(tokens[1]);
-								if(b.pst[temp-1].getCol()) {
-									b.pst[25].incr();
-									b.pst[temp-1].setCol(false);
-									b.pst[24].decr();
-									finished = finCheck(max, r1, r2, temp);
-								} else {
-									b.pst[temp-1].incr();
-									b.pst[temp-1].setCol(false);
-									b.pst[24].decr();
-									finished = finCheck(max, r1, r2, temp);
-								}
-							} else if(tokens[1].equals("out")) {
-								int temp = Integer.parseInt(tokens[0]);
-								b.pst[26].incr();
-								b.pst[temp-1].decr();
-								finished = finCheck(max, r1, r2, temp);
+					System.out.println(mov);
+					String delimiter = "\\.";
+					String[] tokens = mov.split(delimiter);
+					if(whiteTurn) {
+						if(tokens[0].equals("out")) {
+							int temp = Integer.parseInt(tokens[1]);
+							if(b.pst[temp-1].getCol()) {
+								b.pst[25].incr();
+								b.pst[temp-1].setCol(false);
+								b.pst[24].decr();
+								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
+										break;
+								gotit = finCheck(max, r1, r2, temp);
+								if(gotit)
+									break;
 							} else {
-								int temp1 = Integer.parseInt(tokens[0]);
-								int temp2 = Integer.parseInt(tokens[1]);
-								if(b.pst[temp2-1].getCol()) {
-									b.pst[25].incr();
-									b.pst[temp2-1].setCol(false);
-									b.pst[temp1-1].decr();
-									finished = finCheck(max, r1, r2, Math.abs(temp1-temp2));
-								} else {
-									b.pst[temp2-1].incr();
-									b.pst[temp2-1].setCol(false);
-									b.pst[temp1-1].decr();
-									finished = finCheck(max, r1, r2, Math.abs(temp1-temp2));
-								}
+								b.pst[temp-1].incr();
+								b.pst[temp-1].setCol(false);
+								b.pst[24].decr();
+								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
+									break;
+								gotit = finCheck(max, r1, r2, temp);
+								if(gotit)
+									break;
 							}
-							
+						} else if(tokens[1].equals("out")) {
+							int temp = Integer.parseInt(tokens[0]);
+							b.pst[26].incr();
+							b.pst[temp-1].decr();
+							if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
+								break;
+							gotit = finCheck(max, r1, r2, temp);
+							if(gotit)
+								break;
 						} else {
-							if(tokens[0].equals("out")) {
-								int temp = Integer.parseInt(tokens[1]);
-								if(!(b.pst[temp-1].getCol()) && b.pst[temp-1].getNum()==1) {
-									b.pst[24].incr();
-									b.pst[temp-1].setCol(true);
-									b.pst[25].decr();
-									finished = finCheck(max, r1, r2, temp);
-								} else {
-									b.pst[temp-1].incr();
-									b.pst[temp-1].setCol(true);
-									b.pst[25].decr();
-									finished = finCheck(max, r1, r2, temp);
-								}
-							} else if(tokens[1].equals("out")) {
-								int temp = Integer.parseInt(tokens[0]);
-								b.pst[27].incr();
-								b.pst[temp-1].decr();
-								finished = finCheck(max, r1, r2, temp);
+							int temp1 = Integer.parseInt(tokens[0]);
+							int temp2 = Integer.parseInt(tokens[1]);
+							if(b.pst[temp2-1].getCol()) {
+								b.pst[25].incr();
+								b.pst[temp2-1].setCol(false);
+								b.pst[temp1-1].decr();
+								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
+									break;
+								gotit = finCheck(max, r1, r2, Math.abs(temp2-temp1));
+								if(gotit)
+									break;
 							} else {
-								int temp1 = Integer.parseInt(tokens[0]);
-								int temp2 = Integer.parseInt(tokens[1]);
-								if(!(b.pst[temp2-1].getCol()) && b.pst[temp2-1].getNum()==1) {
-									b.pst[24].incr();
-									b.pst[temp2-1].setCol(true);
-									b.pst[temp1-1].decr();
-									finished = finCheck(max, r1, r2, Math.abs(temp1-temp2));
-								} else {
-									b.pst[temp2-1].incr();
-									b.pst[temp2-1].setCol(true);
-									b.pst[temp1-1].decr();
-									finished = finCheck(max, r1, r2, Math.abs(temp1-temp2));
-								}
+								b.pst[temp2-1].incr();
+								b.pst[temp2-1].setCol(false);
+								b.pst[temp1-1].decr();
+								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
+									break;
+								gotit = finCheck(max, r1, r2, Math.abs(temp2-temp1));
+								if(gotit)
+									break;
 							}
 						}
 						
 					} else {
-						System.out.println("you entered an invalid move, please try again");
+						if(tokens[0].equals("out")) {
+							int temp = Integer.parseInt(tokens[1]);
+							if(!(b.pst[temp-1].getCol()) && b.pst[temp-1].getNum()==1) {
+								b.pst[24].incr();
+								b.pst[temp-1].setCol(true);
+								b.pst[25].decr();
+								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
+									break;
+								gotit = finCheck(max, r1, r2, temp);
+								if(gotit)
+									break;
+							} else {
+								b.pst[temp-1].incr();
+								b.pst[temp-1].setCol(true);
+								b.pst[25].decr();
+								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
+									break;
+								
+								gotit = finCheck(max, r1, r2, temp);
+								if(gotit)
+									break;
+							}
+						} else if(tokens[1].equals("out")) {
+							int temp = Integer.parseInt(tokens[0]);
+							b.pst[27].incr();
+							b.pst[temp-1].decr();
+							if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
+								break;
+							gotit = finCheck(max, r1, r2, temp);
+							if(gotit)
+								break;
+						} else {
+							int temp1 = Integer.parseInt(tokens[0]);
+							int temp2 = Integer.parseInt(tokens[1]);
+							if(!(b.pst[temp2-1].getCol()) && b.pst[temp2-1].getNum()==1) {
+								b.pst[24].incr();
+								b.pst[temp2-1].setCol(true);
+								b.pst[temp1-1].decr();
+								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
+									break;
+								gotit = finCheck(max, r1, r2, Math.abs(temp2-temp1));
+								if(gotit)
+									break;
+							} else {
+								b.pst[temp2-1].incr();
+								b.pst[temp2-1].setCol(true);
+								b.pst[temp1-1].decr();
+								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
+									break;
+								gotit = finCheck(max, r1, r2, Math.abs(temp2-temp1));
+								if(gotit)
+									break;
+							}
+						}
 					}
+					
+				} else {
+					System.out.println("you entered an invalid move, please try again");
 				}
 			}
+		
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -721,12 +763,17 @@ public class Game {
 	
 	public boolean finCheck(byte max, byte r1, byte r2, int move) {
 		boolean finished = false;
-		if(move==max) 
+		if(move==max) {
 			finished = true;
-		else if(move==r1)
+		}
+		else if(move==r1) {
 			movegen(r2);
-		else if(move==r2)
+			finished = false;
+		}
+		else if(move==r2) {
 			movegen(r1);
+			finished = false;
+		}
 		return finished;
 	}
 	
