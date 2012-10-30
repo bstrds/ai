@@ -51,7 +51,6 @@ public class Game {
 	
 	public void movegen(byte r1, byte r2) {
 		
-
 		boolean exoume_diples = false ;
 		boolean lastRun = false;
 		boolean m1Happened = false;
@@ -61,6 +60,8 @@ public class Game {
 		boolean iCol, ir1Col, ir2Col, ir1r2Col, idubsCol;
 		byte iNum, ir1Num, ir2Num, ir1r2Num, idubsNum;
 		byte lastCounter = 0;
+		
+
 		
 		/* check if we have dubs */
 		if(r1==r2){
@@ -83,7 +84,9 @@ public class Game {
 			moveSet.clear();
 			
 			//to be removed
-			System.out.println("\t\t\t\t\t white rolled "+r1+" and "+r2);
+			
+			System.out.println("\t\t\t\t\t generating moves for "+r1+" and "+r2);
+			
 			
 			/* check to see if we are in last run mode */
 			for(int i=0; i<18; i++) {
@@ -462,6 +465,150 @@ public class Game {
 		}
 	}
 	
+	public void movegen(byte dice) {
+		
+		byte lastCounter = 0;
+		boolean lastRun = false;
+		boolean wEaten = false;
+		boolean bEaten = false;
+		boolean diceCol,iCol;
+		byte diceNum,iNum;
+		
+		/* checks to see if white has eaten pills */
+		if(b.pst[24].getNum()>0) {
+			wEaten = true;
+		}
+		
+		/* checks to see if black has eaten pills */
+		if(b.pst[25].getNum()>0) {
+			bEaten = true;
+		}
+		
+		if(whiteTurn) {
+			moveSet.clear();
+			System.out.println("\t\t\t\t\t generating moves for "+dice);
+			
+			
+			/* check to see if we are in last run mode */
+			for(int i=0; i<18; i++) {
+				if(b.pst[i].getCol()==false && b.pst[i].getNum() != 0) {
+					lastCounter++;
+				}
+			}
+			if(lastCounter==0) {
+				lastRun = true;
+			} 
+			
+			if(wEaten) {
+		
+				diceCol = b.pst[dice-1].getCol();
+				diceNum = b.pst[dice-1].getNum();
+				if((!diceCol || diceNum==0) || diceCol && (diceNum==1)) {
+					moveSet.add("out."+dice);
+				}
+				
+				 
+			} else {
+				
+				/* loop that goes through every position on the board */
+				for(int i=0; i<24; i++) {
+					
+					
+					
+					/* gets the color and number of pills that exist in the current position(i) */
+					iCol = b.pst[i].getCol();
+					iNum = b.pst[i].getNum();
+					
+					/* if the color is white, and there are some pills in the position, continue */
+					if(!iCol && iNum!=0) {
+						
+						/* if the position the first dice brings us to is within the game borders, continue */
+						if(i+dice<24) {
+							
+							/* gets the color and number of pills of the position we are trying to move to */
+							diceCol = b.pst[i+dice].getCol();
+							diceNum = b.pst[i+dice].getNum();
+							
+							/* checks to see if we can move there legally */
+							if((!diceCol || diceNum==0) || (diceCol && (diceNum==1))) {
+								
+								/* we print the legal moves, and also add them to moveSet */
+								moveSet.add((i+1)+"."+(i+dice+1));
+								
+								/* not sure if this is useful in this method */
+								if(diceCol) {
+									System.out.println("It will eat a black pill");
+								}
+							}
+							
+						/* if the position we are trying to move to exceeds the game borders, and we are in last run mode, continue */	
+						} else if (((i+dice) >= 24) && lastRun) {
+							
+							/* again, prints legal moves and adds them to the set */
+							moveSet.add((i+1)+".out");
+						}
+					}
+				}
+			}
+		Iterator<String> it = moveSet.iterator();
+        while (it.hasNext()) {
+                System.out.println(it.next());
+        } 
+		} else {
+			moveSet.clear();
+			System.out.println("\t\t\t\t\t generating moves for "+dice);
+			
+			
+			/* check to see if we are in last run mode */
+			for(int i=23; i>6; i--) {
+				if(b.pst[i].getCol()==true && b.pst[i].getNum() != 0) {
+					lastCounter++;
+				}
+			}
+			if(lastCounter==0) {
+				lastRun = true;
+			}
+			
+			if(bEaten) {
+		
+				diceCol = b.pst[24-dice].getCol();
+				diceNum = b.pst[24-dice].getNum();
+				if((diceCol || diceNum==0) || (!diceCol && (diceNum==1))) {
+					moveSet.add("out."+(24-dice+1));
+				}
+				 
+			} else {
+				
+				/* loop that goes through every position on the board */
+				for(int i=0; i<24; i++) {
+					
+					
+					iCol = b.pst[i].getCol();
+					iNum = b.pst[i].getNum();
+					if(iCol==true && iNum!=0) {
+						if(i-dice>=0)	{
+							diceCol = b.pst[i-dice].getCol();
+							diceNum = b.pst[i-dice].getNum();
+							if((diceCol || diceNum==0) || (!diceCol && (diceNum==1))) {
+								moveSet.add((i+1)+"."+(i-dice+1));
+								if((!diceCol) && (diceNum==1)) {
+									System.out.println("It will eat a white pill");
+								}
+							}
+						} else if (((i-dice) < 0) && lastRun) {
+							moveSet.add((i+1)+".out");
+						}
+					}
+				}
+				Iterator<String> it = moveSet.iterator();
+		        while (it.hasNext()) {
+		                System.out.println(it.next());
+		        } 
+			}
+		}
+		
+	}
+	
 	/* method for the actual moving of pills, checks every move against the moveSet */
 	public void move(byte max, byte r1, byte r2) {
 		String mov;
@@ -478,79 +625,92 @@ public class Game {
 		
 		try {
 			
-			while(!gotit) {
+			while(!finished) {
 				
-				//TODO: change this to work for the gui
-				mov = in.readLine();
-				
-				if (moveSet.contains(mov)) {
-					gotit = true;
-					System.out.println(mov);
-					String delimiter = "\\.";
-					String[] tokens = mov.split(delimiter);
-					if(whiteTurn) {
-						if(tokens[0].equals("out")) {
-							int temp = Integer.parseInt(tokens[1]);
-							if(b.pst[temp-1].getCol()) {
-								b.pst[25].incr();
-								b.pst[temp-1].setCol(false);
-								b.pst[24].decr();
+				while(!gotit) {
+					
+					//TODO: change this to work for the gui
+					mov = in.readLine();
+					
+					if (moveSet.contains(mov)) {
+						gotit = true;
+						System.out.println(mov);
+						String delimiter = "\\.";
+						String[] tokens = mov.split(delimiter);
+						if(whiteTurn) {
+							if(tokens[0].equals("out")) {
+								int temp = Integer.parseInt(tokens[1]);
+								if(b.pst[temp-1].getCol()) {
+									b.pst[25].incr();
+									b.pst[temp-1].setCol(false);
+									b.pst[24].decr();
+									finished = finCheck(max, r1, r2, temp);
+								} else {
+									b.pst[temp-1].incr();
+									b.pst[temp-1].setCol(false);
+									b.pst[24].decr();
+									finished = finCheck(max, r1, r2, temp);
+								}
+							} else if(tokens[1].equals("out")) {
+								int temp = Integer.parseInt(tokens[0]);
+								b.pst[26].incr();
+								b.pst[temp-1].decr();
+								finished = finCheck(max, r1, r2, temp);
 							} else {
-								b.pst[temp-1].incr();
-								b.pst[temp-1].setCol(false);
-								b.pst[24].decr();
+								int temp1 = Integer.parseInt(tokens[0]);
+								int temp2 = Integer.parseInt(tokens[1]);
+								if(b.pst[temp2-1].getCol()) {
+									b.pst[25].incr();
+									b.pst[temp2-1].setCol(false);
+									b.pst[temp1-1].decr();
+									finished = finCheck(max, r1, r2, Math.abs(temp1-temp2));
+								} else {
+									b.pst[temp2-1].incr();
+									b.pst[temp2-1].setCol(false);
+									b.pst[temp1-1].decr();
+									finished = finCheck(max, r1, r2, Math.abs(temp1-temp2));
+								}
 							}
-						} else if(tokens[1].equals("out")) {
-							int temp = Integer.parseInt(tokens[0]);
-							b.pst[26].incr();
-							b.pst[temp-1].decr();
+							
 						} else {
-							int temp1 = Integer.parseInt(tokens[0]);
-							int temp2 = Integer.parseInt(tokens[1]);
-							if(b.pst[temp2-1].getCol()) {
-								b.pst[25].incr();
-								b.pst[temp2-1].setCol(false);
-								b.pst[temp1-1].decr();
+							if(tokens[0].equals("out")) {
+								int temp = Integer.parseInt(tokens[1]);
+								if(!(b.pst[temp-1].getCol()) && b.pst[temp-1].getNum()==1) {
+									b.pst[24].incr();
+									b.pst[temp-1].setCol(true);
+									b.pst[25].decr();
+									finished = finCheck(max, r1, r2, temp);
+								} else {
+									b.pst[temp-1].incr();
+									b.pst[temp-1].setCol(true);
+									b.pst[25].decr();
+									finished = finCheck(max, r1, r2, temp);
+								}
+							} else if(tokens[1].equals("out")) {
+								int temp = Integer.parseInt(tokens[0]);
+								b.pst[27].incr();
+								b.pst[temp-1].decr();
+								finished = finCheck(max, r1, r2, temp);
 							} else {
-								b.pst[temp2-1].incr();
-								b.pst[temp2-1].setCol(false);
-								b.pst[temp1-1].decr();
+								int temp1 = Integer.parseInt(tokens[0]);
+								int temp2 = Integer.parseInt(tokens[1]);
+								if(!(b.pst[temp2-1].getCol()) && b.pst[temp2-1].getNum()==1) {
+									b.pst[24].incr();
+									b.pst[temp2-1].setCol(true);
+									b.pst[temp1-1].decr();
+									finished = finCheck(max, r1, r2, Math.abs(temp1-temp2));
+								} else {
+									b.pst[temp2-1].incr();
+									b.pst[temp2-1].setCol(true);
+									b.pst[temp1-1].decr();
+									finished = finCheck(max, r1, r2, Math.abs(temp1-temp2));
+								}
 							}
 						}
 						
 					} else {
-						if(tokens[0].equals("out")) {
-							int temp = Integer.parseInt(tokens[1]);
-							if(!(b.pst[temp-1].getCol()) && b.pst[temp-1].getNum()==1) {
-								b.pst[24].incr();
-								b.pst[temp-1].setCol(true);
-								b.pst[25].decr();
-							} else {
-								b.pst[temp-1].incr();
-								b.pst[temp-1].setCol(true);
-								b.pst[25].decr();
-							}
-						} else if(tokens[1].equals("out")) {
-							int temp = Integer.parseInt(tokens[0]);
-							b.pst[27].incr();
-							b.pst[temp-1].decr();
-						} else {
-							int temp1 = Integer.parseInt(tokens[0]);
-							int temp2 = Integer.parseInt(tokens[1]);
-							if(!(b.pst[temp2-1].getCol()) && b.pst[temp2-1].getNum()==1) {
-								b.pst[24].incr();
-								b.pst[temp2-1].setCol(true);
-								b.pst[temp1-1].decr();
-							} else {
-								b.pst[temp2-1].incr();
-								b.pst[temp2-1].setCol(true);
-								b.pst[temp1-1].decr();
-							}
-						}
+						System.out.println("you entered an invalid move, please try again");
 					}
-					
-				} else {
-					System.out.println("you entered an invalid move, please try again");
 				}
 			}
 		} catch(IOException e) {
@@ -558,6 +718,19 @@ public class Game {
 		}
 	whiteTurn = !whiteTurn;	
 	}
+	
+	public boolean finCheck(byte max, byte r1, byte r2, int move) {
+		boolean finished = false;
+		if(move==max) 
+			finished = true;
+		else if(move==r1)
+			movegen(r2);
+		else if(move==r2)
+			movegen(r1);
+		return finished;
+	}
+	
+	
 	
 	public void first(byte wr, byte br) {
 		

@@ -23,6 +23,7 @@ public class Board {
 		pst[16].setCol(false); pst[16].setNum((byte)3);
 		pst[18].setCol(false); pst[18].setNum((byte)5);
 		pst[23].setCol(true); pst[23].setNum((byte)2);
+		pst[24].setCol(false); pst[24].setNum((byte)1);
 
 	}
 
