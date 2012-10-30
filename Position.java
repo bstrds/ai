@@ -1,4 +1,4 @@
-//fuck authority and positions 
+//fuck authority and positions
 public class Position {
 	
 	private boolean isBlack;
