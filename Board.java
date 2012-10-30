@@ -7,8 +7,8 @@ public class Board {
 
 	public Board(){
 
-		pst = new Position[26];
-		for(int i=0; i<26; i++) {
+		pst = new Position[28];
+		for(int i=0; i<28; i++) {
 		pst[i] = new Position();
 		}
 	}
@@ -23,21 +23,42 @@ public class Board {
 		pst[16].setCol(false); pst[16].setNum((byte)3);
 		pst[18].setCol(false); pst[18].setNum((byte)5);
 		pst[23].setCol(true); pst[23].setNum((byte)2);
+		//pst[24].setCol(false); pst[24].setNum((byte)1);
 
 	}
 
-	public byte roll() {
-		byte dice = (byte)((Math.random()*6)+1);
-		return dice;
-	}
 
 
 	public void print() {
-		for(int i=0; i<26; i++) {
+		for(int i=0; i<24; i++) {
 			if(pst[i].getNum() != 0) {
 				System.out.println(pst[i].getNum()+" "+pst[i].getCol());
 			} else {
 				System.out.println("empty");
+			}
+		}
+	}
+	
+	public void draw() {
+		for(int i=11; i>=0; i--) {
+			System.out.print("|");
+			if(pst[i].getCol() && pst[i].getNum()>0) {
+				System.out.print("b"+pst[i].getNum());
+			} else if(pst[i].getCol()==false && pst[i].getNum()>0) {
+				System.out.print("w"+pst[i].getNum());
+			} else {
+				System.out.print(" ");
+			}
+		}
+		System.out.println();
+		for(int i=12; i<24; i++) {
+			System.out.print("|");
+			if(pst[i].getCol() && pst[i].getNum()>0) {
+				System.out.print("b"+pst[i].getNum());
+			} else if(pst[i].getCol()==false && pst[i].getNum()>0) {
+				System.out.print("w"+pst[i].getNum());
+			} else {
+				System.out.print(" ");
 			}
 		}
 	}
