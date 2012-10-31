@@ -40,7 +40,10 @@ public class Game {
 		byte dice1 = (byte)((Math.random()*6)+1);
 		byte dice2 = (byte)((Math.random()*6)+1);
 	    movegen(dice1, dice2);
-	    move((byte)(dice1+dice2),dice1,dice2);
+	    if(dice1!=dice2)
+	    	move((byte)(dice1+dice2),dice1,dice2);
+	    else 
+	    	move((byte)(dice1*4),dice1,dice2);
 	}
 	
 	
@@ -711,7 +714,6 @@ public class Game {
 								b.pst[25].decr();
 								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
 									break;
-								
 								gotit = finCheck(max, r1, r2, temp);
 								if(gotit)
 									break;
