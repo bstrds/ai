@@ -9,10 +9,10 @@ public class Test {
 				a1.b.pst[i].setNum((byte)0);
 			}
 		}*/ 
-		for(int i=0; i<20; i++) {
+		//for(int i=0; i<20; i++) {
 			a1.roll();
 			a1.b.draw();
-		}
+		//}
 		
 		
 	}

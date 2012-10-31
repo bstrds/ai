@@ -15,14 +15,14 @@ public class Board {
 
 	public void init() {
 
-		pst[0].setCol(false); pst[0].setNum((byte)2);
+		//pst[0].setCol(false); pst[0].setNum((byte)2);
 		pst[5].setCol(true); pst[5].setNum((byte)5);
-		pst[7].setCol(true); pst[7].setNum((byte)3);
-		pst[11].setCol(false); pst[11].setNum((byte)5);
-		pst[12].setCol(true); pst[12].setNum((byte)5);
-		pst[16].setCol(false); pst[16].setNum((byte)3);
+		//pst[7].setCol(true); pst[7].setNum((byte)3);
+		//pst[11].setCol(false); pst[11].setNum((byte)5);
+		//pst[12].setCol(true); pst[12].setNum((byte)5);
+		//pst[16].setCol(false); pst[16].setNum((byte)3);
 		pst[18].setCol(false); pst[18].setNum((byte)5);
-		pst[23].setCol(true); pst[23].setNum((byte)2);
+		//pst[23].setCol(true); pst[23].setNum((byte)2);
 		//pst[24].setCol(false); pst[24].setNum((byte)1);
 
 	}
@@ -61,5 +61,6 @@ public class Board {
 				System.out.print(" ");
 			}
 		}
+		System.out.println();
 	}
 }

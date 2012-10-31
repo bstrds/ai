@@ -10,7 +10,10 @@ public class Game {
 	
 	Board b;
 	boolean whiteFirst;
+	boolean whiteWin;
+	boolean blackWin;
 	boolean whiteTurn;
+	boolean over;
 	Set<String> moveSet;
 	
 	public Game() {
@@ -37,13 +40,50 @@ public class Game {
 	 * TODO: figure out if it needs a return statement
 	 */
 	public void roll() {
-		byte dice1 = (byte)((Math.random()*6)+1);
-		byte dice2 = (byte)((Math.random()*6)+1);
-	    movegen(dice1, dice2);
-	    if(dice1!=dice2)
-	    	move((byte)(dice1+dice2),dice1,dice2);
-	    else 
-	    	move((byte)(dice1*4),dice1,dice2);
+		
+		boolean lastRun = false;
+		
+		while(true) {
+			if(winCheck())
+				break;
+			byte dice1 = (byte)((Math.random()*6)+1);
+			byte dice2 = (byte)((Math.random()*6)+1);
+		    lastRun = movegen(dice1, dice2);
+		    b.draw();
+		    if(dice1!=dice2)
+		    	move((byte)(dice1+dice2),dice1,dice2,lastRun);
+		    else 
+		    	move((byte)(dice1*4),dice1,dice2,lastRun);
+		}
+		if(whiteWin)
+			System.out.println("white won! IT IS OVER");
+		else if (blackWin)
+			System.out.println("black won! OVER IS IT");
+	}
+	
+	public boolean winCheck() {
+		byte bcounter = 0;
+		byte wcounter = 0;
+		
+		/* checks to see how many pills each player has left */
+		for(int i=0;i<24;i++) {
+			if(!b.pst[i].getCol() && b.pst[i].getNum()>0)
+				wcounter++;
+			else if(b.pst[i].getCol() && b.pst[i].getNum()>0)
+				bcounter++;
+		}
+		
+		/* checks if somebody won */
+		if(wcounter==0)
+			whiteWin = true;
+		else if(bcounter==0)
+			blackWin = true;
+		
+		/* if somebody won, declares the game as over */
+		if(whiteWin || blackWin)
+			over = true;
+		
+		return over;
 	}
 	
 	
@@ -52,7 +92,7 @@ public class Game {
 	 * 
 	 */
 	
-	public void movegen(byte r1, byte r2) {
+	public boolean movegen(byte r1, byte r2) {
 		
 		boolean exoume_diples = false ;
 		boolean lastRun = false;
@@ -63,8 +103,6 @@ public class Game {
 		boolean iCol, ir1Col, ir2Col, ir1r2Col, idubsCol;
 		byte iNum, ir1Num, ir2Num, ir1r2Num, idubsNum;
 		byte lastCounter = 0;
-		
-
 		
 		/* check if we have dubs */
 		if(r1==r2){
@@ -291,10 +329,7 @@ public class Game {
 				m2Happened = false;
 				}
 			}
-		Iterator<String> it = moveSet.iterator();
-        while (it.hasNext()) {
-                System.out.println(it.next());
-        } 
+		printSet();
         
 		
 		} else {
@@ -434,7 +469,7 @@ public class Game {
 								}
 							} else if(lastRun) {
 								while(counter_diplwn < 5) {
-									if(i+counter_diplwn*r1 >= 0) {
+									if(i-counter_diplwn*r1 >= 0) {
 										idubsCol = b.pst[i-counter_diplwn*r1].getCol();
 										idubsNum = b.pst[i-counter_diplwn*r1].getNum();
 										if((idubsCol==true || idubsNum==0) || ((idubsCol==false) && (idubsNum==1))) {
@@ -461,14 +496,12 @@ public class Game {
 				m2Happened = false;
 				}
 			}
-		Iterator<String> it = moveSet.iterator();
-        while (it.hasNext()) {
-                System.out.println(it.next());
-        } 
+		printSet();
 		}
+		return lastRun;
 	}
 	
-	public void movegen(byte dice) {
+	public boolean movegen(byte dice) {
 		
 		byte lastCounter = 0;
 		boolean lastRun = false;
@@ -552,11 +585,8 @@ public class Game {
 						}
 					}
 				}
+				printSet();
 			}
-		Iterator<String> it = moveSet.iterator();
-        while (it.hasNext()) {
-                System.out.println(it.next());
-        } 
 		} else {
 			moveSet.clear();
 			System.out.println("\t\t\t\t\t generating moves for "+dice);
@@ -603,17 +633,14 @@ public class Game {
 						}
 					}
 				}
-				Iterator<String> it = moveSet.iterator();
-		        while (it.hasNext()) {
-		                System.out.println(it.next());
-		        } 
+				printSet();
 			}
 		}
-		
+		return lastRun;
 	}
 	
 	/* method for the actual moving of pills, checks every move against the moveSet */
-	public void move(byte max, byte r1, byte r2) {
+	public void move(byte max, byte r1, byte r2, boolean lastRun) {
 		String mov;
 		boolean gotit = false;
 		byte counter = 0;
@@ -625,6 +652,7 @@ public class Game {
 		System.out.println("type your move. (style: 1.10)");
 		InputStreamReader read = new InputStreamReader(System.in);
 		BufferedReader in = new BufferedReader(read);
+		
 		
 		try {
 			
@@ -650,7 +678,7 @@ public class Game {
 								b.pst[24].decr();
 								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
 										break;
-								gotit = finCheck(max, r1, r2, temp);
+								gotit = finCheck(max, r1, r2, temp, lastRun);
 								if(gotit)
 									break;
 							} else {
@@ -659,7 +687,7 @@ public class Game {
 								b.pst[24].decr();
 								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
 									break;
-								gotit = finCheck(max, r1, r2, temp);
+								gotit = finCheck(max, r1, r2, temp, lastRun);
 								if(gotit)
 									break;
 							}
@@ -669,7 +697,9 @@ public class Game {
 							b.pst[temp-1].decr();
 							if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
 								break;
-							gotit = finCheck(max, r1, r2, temp);
+							gotit = finCheck(max, r1, r2, 25-temp, lastRun);
+							if (moveSet.isEmpty())
+								break;
 							if(gotit)
 								break;
 						} else {
@@ -681,7 +711,7 @@ public class Game {
 								b.pst[temp1-1].decr();
 								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
 									break;
-								gotit = finCheck(max, r1, r2, Math.abs(temp2-temp1));
+								gotit = finCheck(max, r1, r2, Math.abs(temp2-temp1), lastRun);
 								if(gotit)
 									break;
 							} else {
@@ -690,7 +720,7 @@ public class Game {
 								b.pst[temp1-1].decr();
 								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
 									break;
-								gotit = finCheck(max, r1, r2, Math.abs(temp2-temp1));
+								gotit = finCheck(max, r1, r2, Math.abs(temp2-temp1), lastRun);
 								if(gotit)
 									break;
 							}
@@ -705,7 +735,7 @@ public class Game {
 								b.pst[25].decr();
 								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
 									break;
-								gotit = finCheck(max, r1, r2, 24-(temp-1));
+								gotit = finCheck(max, r1, r2, 24-(temp-1), lastRun);
 								if(gotit)
 									break;
 							} else {
@@ -715,7 +745,7 @@ public class Game {
 								b.pst[25].decr();
 								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
 									break;
-								gotit = finCheck(max, r1, r2, 24-(temp-1));
+								gotit = finCheck(max, r1, r2, 24-(temp-1), lastRun);
 								if(gotit)
 									break;
 							}
@@ -725,7 +755,9 @@ public class Game {
 							b.pst[temp-1].decr();
 							if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
 								break;
-							gotit = finCheck(max, r1, r2, temp);
+							gotit = finCheck(max, r1, r2, temp, lastRun);
+							if (moveSet.isEmpty())
+								break;
 							if(gotit)
 								break;
 						} else {
@@ -737,7 +769,7 @@ public class Game {
 								b.pst[temp1-1].decr();
 								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
 									break;
-								gotit = finCheck(max, r1, r2, Math.abs(temp2-temp1));
+								gotit = finCheck(max, r1, r2, Math.abs(temp2-temp1), lastRun);
 								if(gotit)
 									break;
 							} else {
@@ -746,7 +778,7 @@ public class Game {
 								b.pst[temp1-1].decr();
 								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
 									break;
-								gotit = finCheck(max, r1, r2, Math.abs(temp2-temp1));
+								gotit = finCheck(max, r1, r2, Math.abs(temp2-temp1), lastRun);
 								if(gotit)
 									break;
 							}
@@ -764,23 +796,30 @@ public class Game {
 	whiteTurn = !whiteTurn;	
 	}
 	
-	public boolean finCheck(byte max, byte r1, byte r2, int move) {
+	public boolean finCheck(byte max, byte r1, byte r2, int move, boolean lastRun) {
 		boolean finished = false;
 		if(move==max) {
 			finished = true;
 		}
-		else if(move==r1) {
+		else if(move==r1 || (lastRun && r1>move)) {
 			movegen(r2);
+			b.draw();
 			finished = false;
 		}
-		else if(move==r2) {
+		else if(move==r2 || (lastRun && r2>move)) {
 			movegen(r1);
+			b.draw();
 			finished = false;
 		}
 		return finished;
 	}
 	
-	
+	public void printSet() {
+		Iterator<String> it = moveSet.iterator();
+        while (it.hasNext()) {
+                System.out.println(it.next());
+        } 
+	}
 	
 	public void first(byte wr, byte br) {
 		
