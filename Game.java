@@ -699,22 +699,23 @@ public class Game {
 					} else {
 						if(tokens[0].equals("out")) {
 							int temp = Integer.parseInt(tokens[1]);
-							if(!(b.pst[temp-1].getCol()) && b.pst[temp-1].getNum()==1) {
+							if((!b.pst[temp-1].getCol()) && b.pst[temp-1].getNum()==1) {
 								b.pst[24].incr();
 								b.pst[temp-1].setCol(true);
 								b.pst[25].decr();
 								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
 									break;
-								gotit = finCheck(max, r1, r2, temp);
+								gotit = finCheck(max, r1, r2, 24-(temp-1));
 								if(gotit)
 									break;
 							} else {
+								System.out.println("BANG");
 								b.pst[temp-1].incr();
 								b.pst[temp-1].setCol(true);
 								b.pst[25].decr();
 								if(((counter==2 && r1!=r2) || (counter==4 && r1==r2)) || moveSet.isEmpty())
 									break;
-								gotit = finCheck(max, r1, r2, temp);
+								gotit = finCheck(max, r1, r2, 24-(temp-1));
 								if(gotit)
 									break;
 							}
